@@ -1,0 +1,9 @@
+Hello!
+
+This folder is originally creted by Ankan on 15th october, 2016, 7:01 AM.
+
+With the aim in mind to continuouslly sync across devises and to have a transparent version control over the code. 
+
+The Project name is Biofeedback With the Butterfly as a nick name.
+
+All the necessary code development and the future development would be done here. If you want to see teh earlier versions just check on the Github.
