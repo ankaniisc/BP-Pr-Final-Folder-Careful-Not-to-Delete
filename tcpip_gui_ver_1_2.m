@@ -19,7 +19,7 @@ backgroundColor = 'w';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Topoplot %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% loading the channel location file
-chanFile = 'realTimeAnalysisActicap32';%'biofeedback_5ch.mat';
+chanFile = 'biofeedback_5Ch';%'biofeedback_5ch.mat';
 locpath=fullfile(pwd,chanFile);
 chanLocFile = load(locpath);
 chanlocs = chanLocFile.chanlocs;
