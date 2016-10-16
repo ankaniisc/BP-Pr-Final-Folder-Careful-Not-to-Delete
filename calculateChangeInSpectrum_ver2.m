@@ -15,8 +15,8 @@ function [rawdata ,powerdata,incrFact,setfreqdata,relqut,susqut] = calculateChan
 pnet('closeall')   % Closing all the previously opended pnet connections
 pauseseconds = 10;  % pause after each trial
 
-betaLowerLimit = 17;
-betaUpperLimit = 23;
+betaLowerLimit = 16;
+betaUpperLimit = 21;
 
 rawbldata = handles.rawbldata; 
 rawdata = rawbldata;
@@ -270,6 +270,8 @@ while (count < totPass)
                                
                if(trialType == 0)
                     disp('playing constant tone');
+                    incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');
+                    incrFact = [incrFact incrFact(cap)];
                     stFreq = Fc;
                     soundTone = sine_tone(Fsound,1,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone   
@@ -324,18 +326,24 @@ while (count < totPass)
                 powerdata = dPower;
                 % get the frequency
                 cap = BLPeriod + count;                        
-                incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');
-                
-                %% make a incrFact to capture the beta power        
-                incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,betaLowerLimit:betaUpperLimit),2)'*smoothKernel');
+%                 incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');
+%                 
+%                 %% make a incrFact to capture the beta power        
+%                 incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,betaLowerLimit:betaUpperLimit),2)'*smoothKernel');
                 
                 if(trialType == 0) 
+                    incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');
+                    incrFact = [incrFact incrFact(cap)];
                     stFreq = Fc;
                     soundTone = sine_tone(Fsound,1,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone 
                     setfreqdata = [setfreqdata stFreq];
                     disp(stFreq);
                elseif(trialType == 1)
+                   
+                    incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');
+                    incrFact = [incrFact incrFact(cap)];
+                    
                     stFreq = round(Fc - incrFact(cap) * Fi);                           
                     soundTone = sine_tone(Fsound,1,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone  
@@ -349,10 +357,12 @@ while (count < totPass)
 %                     sound(soundTone,Fsound); 
 %                     setfreqdata = [setfreqdata stFreq];
 %                     disp(stFreq);
+                    incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,betaLowerLimit:betaUpperLimit),2)'*smoothKernel');
+                    incrFact = [incrFact incrFact(cap)];
                     stFreq = round(Fc - incrFact(cap) * Fi);                           
                     soundTone = sine_tone(Fsound,1,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone
-                    setfreqdata = stFreq;
+                    setfreqdata = [setfreqdata stFreq];
                     disp(stFreq);                  
                end
 
