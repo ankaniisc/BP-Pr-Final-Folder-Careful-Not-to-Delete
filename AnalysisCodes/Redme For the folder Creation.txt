@@ -1,0 +1,1 @@
+This folder is aimed at analysing the data generated in the biofeedback Project.
