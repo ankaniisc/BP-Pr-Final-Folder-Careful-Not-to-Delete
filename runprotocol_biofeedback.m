@@ -28,7 +28,7 @@ tag = [date subjectname blocknumber]; % horizontally concatening two strings
 
 tot_trials = 16; % defining total number of trials
 % creating the array of trialtypes
-% defining zero for the contant tone    (25% of the total trials),
+% defining zero for the constant tone    (25% of the total trials),
 % defining one for the dependent tone   (50% of the total trials),
 % defining two for the independent tone (25% of the total trial)
 % generating ones, twos and zeros accordingly 
