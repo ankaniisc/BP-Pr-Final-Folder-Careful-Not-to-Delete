@@ -84,8 +84,4 @@ set(gca,'YLim',[0 1000],'XTickLabel',{'Constant','Independent','Dependent'})
 % ax.XTickLabel={'ankan'} % this would work also, % the hing to remember
 % here is to put this string in a cell array not in a matrix.
 xlabel('Trialtype','FontSize',12,'FontWeight','bold','Color','k'); ylabel('Average feedback frequency of the tone','FontSize',12,'FontWeight','bold','Color','k');
-title('Average set frequency of the feedback tone vs. different trialtypes','FontSize',14,'FontWeight','bold','Color','k');
-
-% save the figure in the pwd;
-saveas(gca,'Average set frequency of the feedback tone vs. different trialtypes.jpeg','jpeg');
-
+title('Average set frequency vs different trialtypes')
