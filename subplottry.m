@@ -1,0 +1,9 @@
+ x=0:.1:2*pi;
+subplot(2,3,1);
+plot(x,sin(x));
+subplot(2,3,2);
+plot(x,cos(x));
+subplot(2,3,3);
+plot(x,exp(-x));
+subplot(2,3,[4,5,6]);
+plot(peaks);

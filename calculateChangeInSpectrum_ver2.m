@@ -10,7 +10,7 @@
 % instead of a global variable.
 
         
-function [rawdata ,powerdata,incrFact,setfreqdata,relqut,susqut] = calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type)%,betaLowerLimit,betaUpperLimit)
+function [rawdata,powerdata,incrFact,setfreqdata,relqut,susqut] = calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type)%,betaLowerLimit,betaUpperLimit)
 
 pnet('closeall')   % Closing all the previously opended pnet connections
 pauseseconds = 10;  % pause after each trial
@@ -134,6 +134,8 @@ params.pad = -1; % no padding
 params.Fs = Fs; % sampling frequency
 params.trialave = 0; % average over trials
 params.fpass = [0 Fs/10];
+%%
+% *BOLD TEXT*
 
 % Initializing the variables
 count = 0; 
@@ -255,9 +257,9 @@ while (count < totPass)
                 % the runtime
                 
                 dPower = handles.dPowerBL;
-                dPower=double(dPower);
+                dPower = double(dPower);
                 alphaPower = mean(dPower(:,alphaLowerLimit:alphaUpperLimit),2);
-                dPower=[dPower; double(conv2Log(squeeze(mean(power(count,:,:),3)))) - mLogBL];
+                dPower = [dPower; double(conv2Log(squeeze(mean(power(count,:,:),3)))) - mLogBL];
                 
                               
                %% introducing a new variable 'cap' in which count for the incrFactRaw and incrFact would be kept.
