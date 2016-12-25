@@ -6,4 +6,4 @@ With the aim in mind to continuouslly sync across devises and to have a transpar
 
 The Project name is Biofeedback With the Butterfly as a nick name.
 
-All the necessary code development and the future development would be done here. If you want to see teh earlier versions just check on the Github.
+All the necessary code development and the future development would be done here. If you want to see the earlier versions just check on the Github.

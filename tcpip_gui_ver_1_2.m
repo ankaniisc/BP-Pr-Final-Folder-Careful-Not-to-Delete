@@ -129,7 +129,7 @@ handles.chanlocs = chanlocs;
         handles.AlphaChans = AlphaChans;
         handles.BLPeriod = BLPeriod;
         
-        [rawbldata,mLogBL,~,dPowerBL] = calculateBaseline(BLPeriod,handles);
+        [rawbldata,~,mLogBL,~,dPowerBL] = calculateBaseline(BLPeriod,handles);
         savefile = 'rawbldata.mat';
         handles.mLogBL=mLogBL;
         handles.dPowerBL=dPowerBL;

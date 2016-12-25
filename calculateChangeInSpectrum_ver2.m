@@ -15,8 +15,8 @@ function [rawdata,powerdata,incrFact,setfreqdata,relqut,susqut] = calculateChang
 pnet('closeall')   % Closing all the previously opended pnet connections
 pauseseconds = 10;  % pause after each trial
 
-betaLowerLimit = 16;
-betaUpperLimit = 21;
+betaLowerLimit = 17;
+betaUpperLimit = 22;
 
 rawbldata = handles.rawbldata; 
 rawdata = rawbldata;
@@ -295,6 +295,8 @@ while (count < totPass)
                     disp(stFreq);
                     
                elseif(trialType ==2)
+                   
+                   % if trail type == 2 means it is alphaindependent
                     disp('playing alpha independent tone');
                     
                     incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,betaLowerLimit:betaUpperLimit),2)'*smoothKernel');
