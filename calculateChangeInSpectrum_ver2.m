@@ -10,13 +10,14 @@
 % instead of a global variable.
 
         
-function [rawdata,powerdata,incrFact,setfreqdata,relqut,susqut] = calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type)%,betaLowerLimit,betaUpperLimit)
+function [trialType,rawdata,powerdata,incrFact,setfreqdata,relqut,susqut] = calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type,hc)%,betaLowerLimit,betaUpperLimit)
+% set(hc,'visible','off');
 
 pnet('closeall')   % Closing all the previously opended pnet connections
-pauseseconds = 10;  % pause after each trial
+pauseseconds = 10;  % pause after each trial when the dialogue box will remain open
 
-betaLowerLimit = 17;
-betaUpperLimit = 22;
+betaLowerLimit = 14;
+betaUpperLimit = 19;
 
 rawbldata = handles.rawbldata; 
 rawdata = rawbldata;
@@ -38,9 +39,10 @@ trialType = t_type;
 
 % Initialising the variables
 
+sound_dur = 1;
 Fsound = 44100; % need a high enough value so that alpha power below baseline can be played
-Fc = 900;      % Base frequency (changed from original value i.e. 500 Hz)
-Fi = 500;       % Decrement frequency
+Fc = 450;      % Base frequency (changed from original value i.e. 500 Hz)
+Fi = 600;       % Decrement frequency
 smoothKernel = repmat(1/10,1,5);
 epochsToAvg = length(smoothKernel); 
 
@@ -275,7 +277,7 @@ while (count < totPass)
                     incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');
                     incrFact = [incrFact incrFact(cap)];
                     stFreq = Fc;
-                    soundTone = sine_tone(Fsound,1,stFreq); 
+                    soundTone = sine_tone(Fsound,sound_dur,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone   
                     setfreqdata = stFreq;
                     disp(stFreq);
@@ -289,7 +291,7 @@ while (count < totPass)
                     incrFact = [incrFact incrFact(cap)];
                     
                     stFreq = round(Fc - incrFact(cap) * Fi);                           
-                    soundTone = sine_tone(Fsound,1,stFreq); 
+                    soundTone = sine_tone(Fsound,sound_dur,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone
                     setfreqdata = stFreq;
                     disp(stFreq);
@@ -309,7 +311,7 @@ while (count < totPass)
 %                     setfreqdata = stFreq;
 %                     disp(stFreq);
                     stFreq = round(Fc - incrFact(cap) * Fi);                           
-                    soundTone = sine_tone(Fsound,1,stFreq); 
+                    soundTone = sine_tone(Fsound,sound_dur,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone
                     setfreqdata = stFreq;
                     disp(stFreq);
@@ -324,10 +326,11 @@ while (count < totPass)
             
             if (count > 1)              
                 
+%                 set(hc,'visible','off');
                 %% change in pow spectrum
                 dPower = ([dPower; double(conv2Log(squeeze(mean(power(count,:,:),3))) - mLogBL)]);
                 
-                powerdata = dPower;
+                powerdata = dPower; % each time powerdat is updated to reflect the dpower
                 % get the frequency
                 cap = BLPeriod + count;                        
 %                 incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');
@@ -339,7 +342,7 @@ while (count < totPass)
                     incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');
                     incrFact = [incrFact incrFact(cap)];
                     stFreq = Fc;
-                    soundTone = sine_tone(Fsound,1,stFreq); 
+                    soundTone = sine_tone(Fsound,sound_dur,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone 
                     setfreqdata = [setfreqdata stFreq];
                     disp(stFreq);
@@ -349,7 +352,7 @@ while (count < totPass)
                     incrFact = [incrFact incrFact(cap)];
                     
                     stFreq = round(Fc - incrFact(cap) * Fi);                           
-                    soundTone = sine_tone(Fsound,1,stFreq); 
+                    soundTone = sine_tone(Fsound,sound_dur,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone  
                     setfreqdata = [setfreqdata stFreq];
                     disp(stFreq);
@@ -364,7 +367,7 @@ while (count < totPass)
                     incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,betaLowerLimit:betaUpperLimit),2)'*smoothKernel');
                     incrFact = [incrFact incrFact(cap)];
                     stFreq = round(Fc - incrFact(cap) * Fi);                           
-                    soundTone = sine_tone(Fsound,1,stFreq); 
+                    soundTone = sine_tone(Fsound,sound_dur,stFreq); 
                     sound(soundTone,Fsound); % play the sound tone
                     setfreqdata = [setfreqdata stFreq];
                     disp(stFreq);                  
@@ -373,7 +376,7 @@ while (count < totPass)
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     
 
                 axes(handles.tfAlpha);
-
+%                 set(hc,'visible','off');
                 pcolor(1:size(dPower,1), freq, 10*double(dPower(1:size(dPower,1),:)')); hold on;
                 colormap jet; shading interp;
                 plot(1:size(dPower,1),alphaUpperLimit,'k'); hold on;
@@ -437,17 +440,21 @@ while (count < totPass)
 
                 changeArray = stPowerArray/mean(blPowerArray) - 1;
 
-                quot = 100*mean(changeArray);
-                relqut = quot;
+                quot = mean(changeArray);
+                relqut = (int64(quot*100));
                 fluct = std(stPowerArray)/mean(stPowerArray);
-                susqut = (1/fluct)*100;  % Converting the variablily to sustainability index
+                susqut = (int64(100*(1/fluct)));  % Converting the variablily to sustainability index
                 fprintf('open your eyes and relax...\n');
                 concobj = audioplayer(conc.dat,Fconc);
                 playblocking(concobj);
                 fprintf('End of the demo\n');
-                
+%                 set(hc,'visible','off');
                 % show a message box
-                h = msgbox(['Your relaxation quotient is ' num2str(relqut) ' % and your sustenance quotient is ' num2str(susqut)], 'EEG Demo', 'help');
+                h = msgbox([' Your relaxation quotient is ' num2str(relqut) '  and sustenance quotient is ' num2str(susqut)], 'Relaxation and Sustenance Quotient');
+                set(h,'Position',[160 300 700 80]);
+                ah = get( h, 'CurrentAxes' );
+                ch = get( ah, 'Children' );
+                set( ch, 'FontSize', 20 );
                 pause(pauseseconds);
                 close(h);
             end

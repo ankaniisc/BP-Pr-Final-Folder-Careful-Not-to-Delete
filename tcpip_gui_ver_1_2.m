@@ -1,9 +1,10 @@
-function tcpip_gui_ver_1_2
+function hc = tcpip_gui_ver_1_2
 
 %% fonts
 
+hc = figure(1123);
 fontSizeSmall = 10; fontSizeMedium = 12; fontSizeLarge = 16; fontSizeTiny = 8;
-
+% baselineperiod = num2str(7); exp_runtime = 50;
 % Make Panels
 
 % Defining Basic positions
@@ -45,7 +46,7 @@ uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
 hBLPeriod = uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
         'BackgroundColor', backgroundColor, 'Position', ...
         [dynamicTextWidth 1-1*(dynamicHeight+dynamicGap) 1-dynamicTextWidth-dynamicGap dynamicHeight], ...
-        'Style','edit','String','10','FontSize',fontSizeSmall);  % Creating the Handle for the Baseline period 
+        'Style','edit','String','7','FontSize',fontSizeSmall);  % Creating the Handle for the Baseline period 
 
 % Run-time
 
@@ -55,7 +56,7 @@ uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
 hRunTime = uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
         'BackgroundColor', backgroundColor, 'Position', ...
         [dynamicTextWidth 1-2*(dynamicHeight+dynamicGap) 1-dynamicTextWidth-dynamicGap dynamicHeight], ...
-        'Style','edit','String','20','FontSize',fontSizeSmall); % Handle for the experiment runtime
+        'Style','edit','String','50','FontSize',fontSizeSmall); % Handle for the experiment runtime
  
 % Frequency Range for analysis 
 
@@ -91,7 +92,11 @@ uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
 % Callback stimulus function for analysis
 uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
     'Position',[(dynamicTextWidth*2-dynamicGap)/2 1-7*(dynamicHeight+dynamicGap) (dynamicTextWidth*2-dynamicGap)/2 dynamicHeight],...
-    'Style','pushbutton','String','Run','FontSize',fontSizeSmall,'Callback',{@run_Callback});
+    'Style','pushbutton','String','Run','FontSize',fontSizeSmall);
+
+uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
+    'Position',[(dynamicTextWidth*1-dynamicGap)/2 1-8*(dynamicHeight+dynamicGap) (dynamicTextWidth*2-dynamicGap)/2 dynamicHeight],...
+    'Style','pushbutton','String','START','FontSize',fontSizeSmall,'Callback',{@run_Callback});
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -150,7 +155,7 @@ handles.chanlocs = chanlocs;
         alphaRangeMin =  str2num(get(hAlphaRangeMin,'string'));
         alphaRangeMax =  str2num(get(hAlphaRangeMax,'string'));
 
-        [data,trialtype,tag] = runprotocol_biofeedback(handles,alphaRangeMin,alphaRangeMax);
+        [data,trialtype,tag] = runprotocol_biofeedback(handles,alphaRangeMin,alphaRangeMax,hc);
 %         save(['biofeedback_' tag],'data','trialtype');
     end
 

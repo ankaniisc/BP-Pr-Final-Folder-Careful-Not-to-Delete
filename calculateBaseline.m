@@ -1,10 +1,10 @@
 
 %% PLOT BASELINE RAW POWER SPECTRUM AND LOG POWERSPECTRUM.
 
-function [rawbldata,rawblpower,mLogBL,blPass,dPower] = calculateBaseline(blPass,handles)
+function [rawbldata,rawblpower,mLogBL,blPass,dPower] = calculateBaseline(blPass,handles,hc)
 
 pnet('closeall') % closing all the previously opens pnets connections
-
+set(hc,'visible','off');
 %%
 disp('R E A D Y...');
 [ready.dat, Fready] = audioread('ready.wav');
@@ -224,7 +224,7 @@ while (count < blPass)
             
             
             %% Plotting the raw trace of the signal of the selected channels
-            
+%             set(hc,'visible','off');
             rawTraceAlpha = [rawTraceAlpha X(AlphaChans,:)];
             if count>1; rawTraceAlpha(:,1:size(X,2)) = []; end;
             subplot(handles.rawTraceAlpha); plot(1:Fs,rawTraceAlpha); 
@@ -250,7 +250,8 @@ while (count < blPass)
             %% if true
             % plot the log BL power continuously(thin line) 
             
-            if (blCount >= 0)            
+            if (blCount >= 0)   
+%                 set(hc,'visible','off');
                 cla(handles.chPowerAlpha)
                 hBaseline=handles.chPowerAlpha;
                 sz=size(power);
@@ -265,13 +266,14 @@ while (count < blPass)
                 % plot the baseline power in thick line
                 
                 if (blCount == 0)
-                    
+%                     set(hc,'visible','off');
                     rawblpower = meanPower;
                     mLogBL = conv2Log(mean(meanPower,1));
                     % dpower is the substracted final bl power
                     dPower = (conv2Log(meanPower) - repmat(mLogBL,size(meanPower,1),1));                    
                     cla(handles.chPowerAlpha);
                     axes(hBaseline);
+%                     
                     plot(freq, mLogBL, 'k','linewidth',3);
                     xlabel(hBaseline, 'Frequency (Hz)'); ylabel(hBaseline, 'Log(Baseline Power(dB))');
                     title(hBaseline, 'Log(Baseline power)');

@@ -1,5 +1,5 @@
 
-function [data,trialtype,tag] = runprotocol_biofeedback(handles,alphaLowerLimit,alphaUpperLimit)%,betaLowerLimit,betaUpperLimit)
+function [data,trialtype,tag] = runprotocol_biofeedback(handles,alphaLowerLimit,alphaUpperLimit,hc)%,betaLowerLimit,betaUpperLimit)
 
 % Desrciption of the script:
 % Once the user hits the run button the scrpt will allow 
@@ -26,7 +26,7 @@ tag = [date subjectname blocknumber]; % horizontally concatening two strings
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-tot_trials = 4; % defining total number of trials
+tot_trials = 12; % defining total number of trials
 % creating the array of trialtypes
 % defining zero for the constant tone    (25% of the total trials),
 % defining one for the dependent tone   (50% of the total trials),
@@ -63,12 +63,16 @@ for i = start_value : end_value
     block   = blocknumber;
     t_type  = trialtype(i); 
     disp(t_type);
-        
+    if(i==1)
+        pause
+        pause(15)
+    end
+    set(hc,'visible','off');
     % Now with this trialtype the script should call the
     % calculatechangeinspectrum function 20 times which will lead to 20
     % trials and after each trial there will be a pause of 10 seconds
     
-    %% baseline
+        %% baseline
     
     %% warning to the subject
     
@@ -76,7 +80,10 @@ for i = start_value : end_value
     %% gettin the baseline data while eyes open task
     BLPeriod = str2double(handles.BLPeriod);
 %     AlphaChans = str2double(handles.AlphaChans);   
-    [rawbldata,rawblpower,mLogBL,blCount,dPowerBL] = calculateBaseline(BLPeriod,handles);   
+
+  %% Calibration
+  %%%%%%%%%%%% we need to send the command back to the master gui
+    [rawbldata,rawblpower,mLogBL,blCount,dPowerBL] = calculateBaseline(BLPeriod,handles,hc);   
     handles.blCount = blCount;
     handles.rawbldata = rawbldata;
     handles.rawblpower = rawblpower;
@@ -85,9 +92,9 @@ for i = start_value : end_value
 
     %% runtime
     if(block == 1)
-        [datbl1{1,1}{1,i},datbl1{1,1}{2,i},datbl1{1,1}{3,i},datbl1{1,1}{4,i},datbl1{1,1}{5,i},datbl1{1,1}{6,i}]=calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type);
+        [datbl1{1,1}{1,i},datbl1{1,1}{2,i},datbl1{1,1}{3,i},datbl1{1,1}{4,i},datbl1{1,1}{5,i},datbl1{1,1}{6,i},datbl1{1,1}{7,i}]=calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type,hc);
     elseif(block == 2)
-        [data{2,1}{1,i},data{2,1}{2,i},data{2,1}{3,i},data{2,1}{4,i},data{2,1}{5,i},data{2,1}{5,i}]=calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type);
+        [data{2,1}{1,i},data{2,1}{2,i},data{2,1}{3,i},data{2,1}{4,i},data{2,1}{5,i},data{2,1}{6,i},data{2,1}{7,i}]=calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type,hc);
     end
     
    
