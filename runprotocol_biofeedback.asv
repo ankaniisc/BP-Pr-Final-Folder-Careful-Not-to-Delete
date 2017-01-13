@@ -92,11 +92,11 @@ for i = start_value : end_value
     handles.dPowerBL=dPowerBL;
     
     %% Inserting the code for checking the baseline power during the start of the eyes close task
-    response = checkBaselinePower;
+    response = checkbaselinepower;
     
-        if response == 1
-            break          
-        end
+    if response == 1
+        break     
+        
     end
        %% runtime
         [datbl1{1,1}{1,i},datbl1{1,1}{2,i},datbl1{1,1}{3,i},datbl1{1,1}{4,i},datbl1{1,1}{5,i},datbl1{1,1}{6,i},datbl1{1,1}{7,i}]=calculateChangeInSpectrum_ver2(handles,alphaLowerLimit,alphaUpperLimit,t_type,hc);

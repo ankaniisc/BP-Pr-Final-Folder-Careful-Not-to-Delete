@@ -1,7 +1,6 @@
 function hc = tcpip_gui_ver_1_3
 
-%% The new verssion of the TCP ip code replaces the third plot with the baseline power plot.
-
+%% The new version of the TCP ip code adds a fourth plot which would check the baseline power.
 
 %% fonts
 
@@ -85,7 +84,7 @@ hPoolElecAlpha = uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
         [(dynamicTextWidth*2-dynamicGap)/2 1-5*(dynamicHeight+dynamicGap) (dynamicTextWidth*2-dynamicGap)/2 dynamicHeight], ...
         'Style','edit','String','1 2 3 4 5','FontSize',fontSizeSmall);
 
-% Buttons associated with specific function callbacks
+%% Buttons associated with specific function callbacks
 
 % Callback baseline function for analysis
 uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
@@ -110,18 +109,20 @@ uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
 
 plotsStartPos = capStartPos*2+controlPanelWidth; plotsStartHeight = controlPanelStartHeight; plotsWidth = 1-(plotsStartPos+capStartPos); plotsHeight = 1-plotsStartHeight*2;
 plotsPos = [plotsStartPos plotsStartHeight plotsWidth plotsHeight];
-plotHandles = getPlotHandles(3,1,plotsPos);
+plotHandles = getPlotHandles(4,1,plotsPos,0.05,0.05,0);
 
 rawTraceAlpha = plotHandles(1,1);
 tfAlpha = plotHandles(2,1);
 chPowerAlpha = plotHandles(3,1);
+checkBaselinePower = plotHandles(4,1);
+
 
 handles = [];
 handles.rawTraceAlpha = rawTraceAlpha;
 handles.tfAlpha = tfAlpha;
 handles.chPowerAlpha = chPowerAlpha;
 handles.chanlocs = chanlocs;
-
+handles.checkBaselinePower = checkBaselinePower;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

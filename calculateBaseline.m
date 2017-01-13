@@ -281,8 +281,20 @@ while (count < blPass)
                     % ylim(hBaseline,[0 10]);
                     drawnow;
                     
-                    % cue user's attention
-                    fprintf('R E L A X...\n');
+%                     % cue user's attention
+%                     fprintf('R E L A X...\n');
+                    
+                    % Plotting the mean baseline power across 7 seconds
+                    
+                    hCheckBaselinePower = handles.checkBaselinePower;
+                    axes(hCheckBaselinePowe);
+                    plot(freq, mLogBL, 'k','linewidth',3);
+                    xlabel(hBaseline, 'Frequency (Hz)'); ylabel(hBaseline, 'Log(Baseline Power(dB))');
+                    title(hBaseline, 'Log(Baseline power)');
+                    xlim(hBaseline, [0 50]);
+                    % ylim(hBaseline,[0 10]);
+                    drawnow;
+
                     
                 end                
                 continue;

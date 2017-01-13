@@ -1,7 +1,6 @@
 function hc = tcpip_gui_ver_1_3
 
-%% The new verssion of the TCP ip code replaces the third plot with the baseline power plot.
-
+%% The new version of the TCP ip code adds a fourth plot which would check the baseline power.
 
 %% fonts
 
@@ -90,7 +89,7 @@ hPoolElecAlpha = uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
 % Callback baseline function for analysis
 uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
     'Position',[0 1-7*(dynamicHeight+dynamicGap) (dynamicTextWidth*2-dynamicGap)/2 dynamicHeight],...
-    'Style','pushbutton','String','Calibrate','FontSize',fontSizeSmall,'Callback',{@calcBL_Callback});
+    'Style','pushbutton','String','Calibrate','FontSize',fontSizeSmall);
 
 % Callback stimulus function for analysis
 uicontrol('Parent',hDynamicPanel,'Unit','Normalized', ...
@@ -115,6 +114,7 @@ plotHandles = getPlotHandles(4,1,plotsPos,0.05,0.05,0);
 rawTraceAlpha = plotHandles(1,1);
 tfAlpha = plotHandles(2,1);
 chPowerAlpha = plotHandles(3,1);
+checkBaselinePower = plotHandles(4,1);
 
 
 handles = [];
@@ -122,7 +122,7 @@ handles.rawTraceAlpha = rawTraceAlpha;
 handles.tfAlpha = tfAlpha;
 handles.chPowerAlpha = chPowerAlpha;
 handles.chanlocs = chanlocs;
-
+handles.checkBaselinePower = checkBaselinePower;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,25 +130,28 @@ handles.chanlocs = chanlocs;
 %% Callback functions
 
 % Baseline callback
+%% Commenting the baseline code
 
-    function rawbldata = calcBL_Callback(~,~)
-        BLPeriod = get(hBLPeriod,'String');
-        AlphaChans = get(hPoolElecAlpha,'String');
-
-        handles.AlphaChans = AlphaChans;
-        handles.BLPeriod = BLPeriod;
-        
-        [rawbldata,~,mLogBL,~,dPowerBL] = calculateBaseline(BLPeriod,handles);
-        savefile = 'rawbldata.mat';
-        handles.mLogBL=mLogBL;
-        handles.dPowerBL=dPowerBL;
-        save(savefile,'rawbldata');
-    end
+%     function rawbldata = calcBL_Callback(~,~)
+%         BLPeriod = get(hBLPeriod,'String');
+%         AlphaChans = get(hPoolElecAlpha,'String');
+% 
+%         handles.AlphaChans = AlphaChans;
+%         handles.BLPeriod = BLPeriod;
+%         
+%         [rawbldata,~,mLogBL,~,dPowerBL] = calculateBaseline(BLPeriod,handles);
+%         savefile = 'rawbldata.mat';
+%         handles.mLogBL=mLogBL;
+%         handles.dPowerBL=dPowerBL;
+%         save(savefile,'rawbldata');
+%     end
 
 % Runtime callback
 
     function [data,trialtype,tag]= run_Callback(~,~)   
-        warning('off','MATLAB:hg:willberemoved');
+        warning('off','MATLAB:hg:willberemoved');        
+        
+        %% Including more necessary handles
         
         BLPeriod = get(hBLPeriod,'String');
         AlphaChans = get(hPoolElecAlpha,'String');
