@@ -346,6 +346,7 @@ while (count < totPass)
                     sound(soundTone,Fsound); % play the sound tone 
                     setfreqdata = [setfreqdata stFreq];
                     disp(stFreq);
+                    
                elseif(trialType == 1)
                    
                     incrFact(cap) = mean(mean(dPower(end-epochsToAvg+1:end,alphaLowerLimit:alphaUpperLimit),2)'*smoothKernel');

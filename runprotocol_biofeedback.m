@@ -24,7 +24,7 @@ tag = [date subjectname]; % blocknumber % horizontally concatening two strings
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-tot_trials = 12; % defining total number of trials
+tot_trials = 4; % defining total number of trials
 % creating the array of trialtypes
 % defining zero for the constant tone    (25% of the total trials),
 % defining one for the dependent tone   (50% of the total trials),
@@ -45,7 +45,7 @@ end_value = tot_trials;
 
 datbl1 = {};
 % datbl2 ={}; 
-blocknumber = str2double(blocknumber);
+% blocknumber = str2double(blocknumber);
 % 
 % if(blocknumber == 2) % load the collected block one data file for saving the block two data into that
 %    protocol = 'biofeedback_';
@@ -58,14 +58,15 @@ blocknumber = str2double(blocknumber);
 
 for i = start_value : end_value 
    
-    block   = blocknumber;
+%     block   = blocknumber;
     t_type  = trialtype(i); 
     disp(t_type);
     if(i==1)
         pause
         pause(15)
     end
-    set(hc,'visible','off');
+    
+%     set(hc,'visible','off');
     % Now with this trialtype the script should call the
     % calculatechangeinspectrum function 20 times which will lead to 20
     % trials and after each trial there will be a pause of 10 seconds
@@ -91,8 +92,23 @@ for i = start_value : end_value
     handles.mLogBL=mLogBL;
     handles.dPowerBL=dPowerBL;
     
+    %% Ploting the mean alpha raw baseline power
+    meanRawBlPower = mean(mean(rawblpower(:,7:13)));
+    hCheckBaselinePower = handles.checkBaselinePower;
+    axes(hCheckBaselinePower);
+    set(hCheckBaselinePower,'XLim',[0 12]); % Setting the xlim 
+    xlabel(hCheckBaselinePower, 'Trial No'); ylabel(hCheckBaselinePower, 'mean raw baseline alpha power');
+    plot(i,meanRawBlPower,'r*'); hold(hCheckBaselinePower,'on')
+                %     title(hBaseline, 'Log(Baseline power)');
+%                     xlabel(hBaseline, 'Frequency (Hz)'); ylabel(hBaseline, 'Log(Baseline Power(dB))');
+%                     title(hBaseline, 'Log(Baseline power)');
+%                     xlim(hBaseline, [0 50]);
+%                     % ylim(hBaseline,[0 10]);
+    
+    
+    
     %% Inserting the code for checking the baseline power during the start of the eyes close task
-    response = checkBaselinePower;
+    response = GcheckBaselinePower;
     
         if response == 1
             break          
@@ -111,6 +127,6 @@ for i = start_value : end_value
 %             bl2Trialtype = trialtype;
 %             save(['biofeedback_' tag],'data','bl1Trialtype','bl2Trialtype');    
 %         end    
-    end 
+end 
 
-
+hold(hCheckBaselinePower,'off');
