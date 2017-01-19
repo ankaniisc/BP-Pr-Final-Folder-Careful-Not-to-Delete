@@ -125,28 +125,30 @@ plotHandles = getPlotHandles(6,1,plotsPos,0.05,0.05,0);
 
 %%%%
 %% plot handles of the three experimental plots
-rawTraceAlpha   = plotHandles(1,1);
-tfAlpha         = plotHandles(2,1);
-chPowerAlpha    = plotHandles(3,1);
+rawTraceAlpha = plotHandles(1,1);
+tfAlpha = plotHandles(2,1);
+chPowerAlpha = plotHandles(3,1);
 
 %%%%
 %% plot handles for the three result plot
-alphapowerttime  = plotHandles(4,1);
-alpahpowerttno   = plotHandles(5,1);
-alphapowerblttno = plotHandles(6,1);
+alphapowerttime = plotHandles(4,1);
+alpahpowerttype = plotHandles(
 
+
+% handles = [];
+% handles.rawTraceAlpha = rawTraceAlpha;
+% handles.tfAlpha = tfAlpha;
+% handles.chPowerAlpha = chPowerAlpha;
+% handles.chanlocs = chanlocs;
+% handles.checkBaselinePower = checkBaselinePower;
 
 
 %% creating handles for passing on
-handles                     = [];
-handles.rawTraceAlpha       = rawTraceAlpha;
-handles.tfAlpha             = tfAlpha;
-handles.chPowerAlpha        = chPowerAlpha;
-handles.chanlocs            = chanlocs;
-
-handles.alphapowerttime     = alphapowerttime;
-handles.alpahpowerttno      = alpahpowerttno;
-handles.alphapowerblttno    = alphapowerblttno;
+handles = [];
+handles.rawTraceAlpha = rawTraceAlpha;
+handles.tfAlpha = tfAlpha;
+handles.chPowerAlpha = chPowerAlpha;
+handles.chanlocs = chanlocs;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
